@@ -61,7 +61,7 @@ SET(CMAKE_SKIP_BUILD_RPATH  FALSE)
 SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 
 # /opt/libgobgp_1_0_0/lib should be mentioned here explicitly!!!! We link it in runtime
-SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};/opt/libhiredis_0_13/lib;/opt/log4cpp1.1.1/lib;/opt/luajit_2.0.4/lib;/opt/ndpi/lib;/opt/pf_ring_7.4.3/lib;/opt/json-c-0.13/lib;/opt/mongo_c_driver_1_14_0/lib;/opt/libgobgp_1_0_0/lib;/opt/grpc_0_11_1_7a94236d698477636dd06282f12f706cad527029/lib;/opt/protobuf_3.0.0_alpha4/lib")
+SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};/opt/libhiredis_0_13/lib;/opt/log4cpp1.1.1/lib;/opt/luajit_2.0.4/lib;/opt/ndpi/lib;/opt/pf_ring_7.4.0/lib;/opt/json-c-0.13/lib;/opt/mongo_c_driver_1_14_0/lib;/opt/libgobgp_1_0_0/lib;/opt/grpc_0_11_1_7a94236d698477636dd06282f12f706cad527029/lib;/opt/protobuf_3.0.0_alpha4/lib")
 
 message(STATUS "C++ compilation flags: ${CMAKE_CXX_FLAGS_RELEASE}")
 
