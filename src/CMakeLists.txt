@@ -61,16 +61,16 @@ SET(CMAKE_SKIP_BUILD_RPATH  FALSE)
 SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 
 # /opt/libgobgp_1_0_0/lib should be mentioned here explicitly!!!! We link it in runtime
-SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};/opt/libhiredis_0_13/lib;/opt/log4cpp1.1.1/lib;/opt/luajit_2.0.4/lib;/opt/ndpi/lib;/opt/pf_ring_6.0.3/lib;/opt/json-c-0.12/lib;/opt/mongo_c_driver_1_1_9/lib;/opt/libgobgp_1_0_0/lib;/opt/grpc_0_11_1_7a94236d698477636dd06282f12f706cad527029/lib;/opt/protobuf_3.0.0_alpha4/lib")
+SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};/opt/libhiredis_0_13/lib;/opt/log4cpp1.1.1/lib;/opt/luajit_2.0.4/lib;/opt/ndpi/lib;/opt/pf_ring_7.4.3/lib;/opt/json-c-0.13/lib;/opt/mongo_c_driver_1_14_0/lib;/opt/libgobgp_1_0_0/lib;/opt/grpc_0_11_1_7a94236d698477636dd06282f12f706cad527029/lib;/opt/protobuf_3.0.0_alpha4/lib")
 
 message(STATUS "C++ compilation flags: ${CMAKE_CXX_FLAGS_RELEASE}")
 
 set(HIREDIS_CUSTOM_INSTALL_PATH "/opt/libhiredis_0_13")
 set(LOG4CPP_CUSTOM_INSTALL_PATH "/opt/log4cpp1.1.1")
-set(JSONC_CUSTOM_INSTALL_PATH "/opt/json-c-0.12")
-set(PFRING_CUSTOM_INSTALL_PATH "/opt/pf_ring_6.0.3")
+set(JSONC_CUSTOM_INSTALL_PATH "/opt/json-c-0.13")
+set(PFRING_CUSTOM_INSTALL_PATH "/opt/pf_ring_7.4.0")
 set(LIBPCAP_CUSTOM_INSTALL_PATH "/opt/libpcap_1.7.4")
-set(MONGO_C_CUSTOM_INSTALL_PATH "/opt/mongo_c_driver_1_1_9")
+set(MONGO_C_CUSTOM_INSTALL_PATH "/opt/mongo_c_driver_1_14_0")
 
 set(FASTNETMON_PROFILER OFF)
 
@@ -97,7 +97,7 @@ add_executable(fastnetmon fastnetmon.cpp)
 # Get last commit hash
 execute_process(COMMAND git rev-list HEAD COMMAND head -n 1 OUTPUT_VARIABLE GIT_LAST_COMMIT_HASH OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-set(FASTNETMON_APPLICATION_VERSION "1.1.4 master git-${GIT_LAST_COMMIT_HASH}")
+set(FASTNETMON_APPLICATION_VERSION "1.1.3 master git-${GIT_LAST_COMMIT_HASH}")
 configure_file(fast_platform.h.template "${PROJECT_SOURCE_DIR}/fast_platform.h")
 
 # Use new Memory Model Aware Atomic Operations
@@ -660,10 +660,8 @@ install(FILES man/fastnetmon.1 DESTINATION /usr/share/man/man1)
 install(FILES man/fastnetmon_client.1 DESTINATION /usr/share/man/man1)
 
 # service files
-if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    configure_file(fastnetmon.service.in "${CMAKE_CURRENT_BINARY_DIR}/fastnetmon.service" @ONLY)
-    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/fastnetmon.service" DESTINATION ${CMAKE_INSTALL_SYSTEMD_SERVICEDIR})
-endif()
+configure_file(fastnetmon.service.in "${CMAKE_CURRENT_BINARY_DIR}/fastnetmon.service" @ONLY)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/fastnetmon.service" DESTINATION ${CMAKE_INSTALL_SYSTEMD_SERVICEDIR})
 
 if (${OS_ID} MATCHES debian|ubuntu)
 install(FILES fastnetmon_init_script_debian_6_7 DESTINATION ${CMAKE_INSTALL_SYSCONFDIR}/init.d RENAME fastnetmon)
