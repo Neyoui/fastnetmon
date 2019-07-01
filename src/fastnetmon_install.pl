@@ -69,7 +69,7 @@ my $build_binary_environment = '';
 # With this option we could build full binary package
 my $create_binary_bundle = '';
 
-my $use_modern_pf_ring = '';
+my $use_modern_pf_ring = '1';
 
 # Get options from command line
 GetOptions(
