@@ -12,7 +12,7 @@ my $pf_ring_version = '6.0.3';
 my $pf_ring_url = "https://github.com/ntop/PF_RING/archive/v$pf_ring_version.tar.gz";
 my $pf_ring_sha = '9fb8080defd1a079ad5f0097e8a8adb5bc264d00';
 
-my $fastnetmon_git_path = 'https://github.com/pavel-odintsov/fastnetmon.git';
+my $fastnetmon_git_path = 'https://github.com/Neyoui/fastnetmon.git';
 
 my $temp_folder_for_building_project = `mktemp -d /tmp/fastnetmon.build.dir.XXXXXXXXXX`;
 chomp $temp_folder_for_building_project;
@@ -32,12 +32,13 @@ my $install_log_path = '/tmp/fastnetmon_install.log';
 my $ndpi_repository = 'https://github.com/pavel-odintsov/nDPI.git';
 
 my $stable_branch_name = 'v1.1.4';
-my $we_use_code_from_master = '';
+my $we_use_code_from_master = '1';
 
 # By default use mirror
 my $use_mirror = 1;
 
-my $mirror_url = 'https://github.com/pavel-odintsov/fastnetmon_dependencies/raw/master/files'; 
+#my $mirror_url = 'https://github.com/pavel-odintsov/fastnetmon_dependencies/raw/master/files';
+my $mirror_url = 'https://github.com/Neyoui/fastnetmon_dependencies/raw/master/files';
 
 my $os_type = '';
 my $distro_type = ''; 
@@ -50,7 +51,7 @@ my $user_email = '';
 my $appliance_name = ''; 
 
 # So, you could disable this option but without this feature we could not improve FastNetMon for your distribution
-my $do_not_track_me = '';
+my $do_not_track_me = '1';
 
 my $cpus_number = 1;
 
@@ -81,9 +82,9 @@ GetOptions(
 
 # Bump PF_RING version
 if ($use_modern_pf_ring) {
-    $pf_ring_version = '6.6.0';
+    $pf_ring_version = '7.4.0';
     $pf_ring_url = "https://github.com/ntop/PF_RING/archive/$pf_ring_version.tar.gz";
-    $pf_ring_sha = '79ff86e48df857e4e884646accfc97bdcdc54b04';
+    $pf_ring_sha = '1dee93bf5a39bfcc3f9cb089b335091d16cc6749';
 }
 
 my $we_have_ndpi_support = '1';
@@ -340,7 +341,7 @@ sub send_tracking_information {
     my $step = shift;
 
     unless ($do_not_track_me) {
-        my $stats_url = "http://178.62.227.110/new_fastnetmon_installation";
+        my $stats_url = "http://127.0.0.1/new_fastnetmon_installation";
         my $post_data = "distro_type=$distro_type&os_type=$os_type&distro_version=$distro_version&distro_architecture=$distro_architecture&step=$step&we_use_code_from_master=$we_use_code_from_master&user_email=$user_email";
         my $user_agent = 'FastNetMon install tracker v1';
 
@@ -714,8 +715,8 @@ sub install_lua_lpeg {
 }
 
 sub install_json_c {
-    my $archive_name  = 'json-c-0.12-20140410.tar.gz';
-    my $install_path = '/opt/json-c-0.12';
+    my $archive_name  = 'json-c-0.13-20171207.tar.gz';
+    my $install_path = '/opt/json-c-0.13';
 
     print "Install json library\n";
 
@@ -725,7 +726,7 @@ sub install_json_c {
     
     my $json_c_download_result = download_file("https://github.com/json-c/json-c/archive/$archive_name",
         $archive_name,
-        'b33872f8b2837c7909e9bd8734855669c57a67ce');
+        '6fc7fdd11eadd5a05e882df11bb4998219615de2');
 
     unless ($json_c_download_result) {
         die "Can't download json-c sources\n";
@@ -733,7 +734,7 @@ sub install_json_c {
     
     print "Uncompress it\n";       
     exec_command("tar -xf $archive_name");
-    chdir "json-c-json-c-0.12-20140410";
+    chdir "json-c-json-c-0.13-20171207";
 
     # Fix bugs (assigned but not used variable) which prevent code compilation
     if ($os_type eq 'macosx' or $os_type eq 'freebsd') {
@@ -1008,14 +1009,14 @@ sub install_protobuf {
 }
 
 sub install_mongo_client {
-    my $distro_file_name = 'mongo-c-driver-1.1.9.tar.gz';
-    my $mongo_install_path = '/opt/mongo_c_driver_1_1_9';
+    my $distro_file_name = 'mongo-c-driver-1.14.0.tar.gz';
+    my $mongo_install_path = '/opt/mongo_c_driver_1_14_0';
 
     chdir $temp_folder_for_building_project;
     print "Download mongo\n";
 
-    my $mongo_download_result = download_file("https://github.com/mongodb/mongo-c-driver/releases/download/1.1.9/$distro_file_name",
-        $distro_file_name, '32452481be64a297e981846e433b2b492c302b34');
+    my $mongo_download_result = download_file("https://github.com/mongodb/mongo-c-driver/releases/download/1.14.0/$distro_file_name",
+        $distro_file_name, '4e2dc235cd6a5dfbd0dfb7b15bf6e07cc7358752');
     
     unless ($mongo_download_result) {
         die "Can't download mongo\n";
@@ -1023,7 +1024,7 @@ sub install_mongo_client {
 
     exec_command("tar -xf $distro_file_name");
     print "Build mongo client\n";
-    chdir "mongo-c-driver-1.1.9";
+    chdir "mongo-c-driver-1.14.0";
     exec_command("./configure --prefix=$mongo_install_path");
 
     exec_command("make $make_options install");
