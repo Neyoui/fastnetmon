@@ -592,7 +592,7 @@ bool zc_main_loop(const char* device) {
     logger << log4cpp::Priority::INFO << "We will use total number of ZC buffers: " << tot_num_buffers;
 
     zc = pfring_zc_create_cluster(cluster_id, buffer_len, 0, tot_num_buffers,
-                                  numa_node_of_cpu(bind_core), NULL /* auto hugetlb mountpoint */
+                                  numa_node_of_cpu(bind_core), NULL, 0 /* auto hugetlb mountpoint */
                                   );
 
     if (zc == NULL) {
