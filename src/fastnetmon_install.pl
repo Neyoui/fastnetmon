@@ -82,9 +82,9 @@ GetOptions(
 
 # Bump PF_RING version
 if ($use_modern_pf_ring) {
-    $pf_ring_version = '7.4.0';
-    $pf_ring_url = "https://github.com/ntop/PF_RING/archive/$pf_ring_version.tar.gz";
-    $pf_ring_sha = '1dee93bf5a39bfcc3f9cb089b335091d16cc6749';
+    $pf_ring_version = 'dev';
+    $pf_ring_url = "https://github.com/Neyoui/fastnetmon_dependencies/raw/master/files/PF_RING-$pf_ring_version.tar.gz";
+    $pf_ring_sha = 'e17e2425afff2fa03a1e54aa70a1beaa79ed5bce';
 }
 
 my $we_have_ndpi_support = '1';
